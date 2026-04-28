@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Qualifier — Is This a Fit?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./client-qualifier FORM_files/css2" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-soft: #4a473f;
+    --ink-muted: #8a877f;
+    --paper: #faf8f4;
+    --paper-warm: #f3f0ea;
+    --paper-rule: #e8e4db;
+    --accent: #c8572a;
+    --accent-light: #f5e8e2;
+    --green: #2a7a4b;
+    --green-light: #e4f0ea;
+    --amber: #b07a18;
+    --amber-light: #fdf3de;
+    --red: #b83232;
+    --red-light: #fce8e8;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 4px;
+    --radius-lg: 8px;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* Layout */
+  .page-shell {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-logo {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--paper);
+    opacity: 0.6;
+    margin-bottom: 3rem;
+    letter-spacing: 0.01em;
+  }
+
+  .sidebar-headline {
+    font-family: var(--serif);
+    font-size: 1.9rem;
+    line-height: 1.2;
+    color: var(--paper);
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-headline em {
+    color: #e8a87c;
+    font-style: italic;
+  }
+
+  .sidebar-body {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: rgba(250,248,244,0.65);
+    margin-bottom: 2.5rem;
+  }
+
+  .sidebar-criteria {
+    list-style: none;
+    margin-bottom: 2.5rem;
+  }
+
+  .sidebar-criteria li {
+    font-size: 0.78rem;
+    color: rgba(250,248,244,0.55);
+    padding: 0.45rem 0;
+    border-bottom: 0.5px solid rgba(250,248,244,0.1);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .sidebar-criteria li::before {
+    content: '—';
+    color: #e8a87c;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .sidebar-score-preview {
+    margin-top: auto;
+    padding: 1.25rem;
+    background: rgba(250,248,244,0.06);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid rgba(250,248,244,0.12);
+  }
+
+  .score-preview-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(250,248,244,0.4);
+    margin-bottom: 0.5rem;
+  }
+
+  .score-preview-num {
+    font-family: var(--serif);
+    font-size: 3rem;
+    color: var(--paper);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .score-preview-bar {
+    height: 3px;
+    background: rgba(250,248,244,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.6rem;
+  }
+
+  .score-preview-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: #e8a87c;
+    width: 0%;
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+
+  .score-preview-verdict {
+    font-size: 0.75rem;
+    color: rgba(250,248,244,0.5);
+  }
+
+  /* Main form area */
+  .main {
+    padding: 4rem 4rem 6rem;
+    max-width: 720px;
+  }
+
+  .form-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--paper-rule);
+  }
+
+  .form-header-kicker {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .form-header h1 {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .form-header p {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  /* Question blocks */
+  .q-section {
+    margin-bottom: 0.75rem;
+  }
+
+  .q-block {
+    background: white;
+    border: 0.5px solid var(--paper-rule);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .q-block:focus-within {
+    border-color: rgba(200,87,42,0.35);
+    box-shadow: 0 0 0 3px rgba(200,87,42,0.06);
+  }
+
+  .q-block.answered {
+    border-color: rgba(42,122,75,0.3);
+    background: #fcfdfb;
+  }
+
+  .q-num {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 0.3rem;
+  }
+
+  .q-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+    line-height: 1.35;
+  }
+
+  .q-why {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.85rem;
+    line-height: 1.5;
+  }
+
+  select, input[type="text"], textarea {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 0.5px solid var(--paper-rule);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.85rem;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a877f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+
+  select:focus, input:focus, textarea:focus {
+    border-color: rgba(200,87,42,0.4);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+  }
+
+  /* Submit section */
+  .submit-section {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--paper-rule);
+  }
+
+  .submit-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-submit {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+    background: var(--ink);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-submit:hover { background: #2e2c28; }
+  .btn-submit:active { transform: scale(0.98); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .submit-note {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  /* Status messages */
+  .status-msg {
+    display: none;
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-lg);
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .status-msg.success {
+    display: block;
+    background: var(--green-light);
+    color: var(--green);
+    border: 0.5px solid rgba(42,122,75,0.25);
+  }
+
+  .status-msg.error {
+    display: block;
+    background: var(--red-light);
+    color: var(--red);
+    border: 0.5px solid rgba(184,50,50,0.25);
+  }
+
+  /* Fit badge */
+  .fit-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    margin-top: 0.4rem;
+  }
+
+  .fit-strong { background: var(--green-light); color: var(--green); }
+  .fit-possible { background: var(--amber-light); color: var(--amber); }
+  .fit-weak { background: var(--red-light); color: var(--red); }
+  .fit-none { background: var(--paper-warm); color: var(--ink-muted); }
+
+  /* Mobile */
+  @media (max-width: 680px) {
+    .page-shell { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; padding: 2rem 1.5rem; }
+    .sidebar-score-preview { margin-top: 2rem; }
+    .main { padding: 2rem 1.25rem 4rem; }
+    .form-header h1 { font-size: 1.7rem; }
+  }
+
+  /* Loading spinner */
+  .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="page-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">Client Qualifier</div>
+    <div class="sidebar-headline">Is this a <em>fit?</em></div>
+    <p class="sidebar-body">A quick screen to tell us both whether it's worth a full conversation. No gates — just honest signal.</p>
+    <ul class="sidebar-criteria">
+      <li>$1M+ revenue, ideally $2M+</li>
+      <li>For-profit or commercially-minded</li>
+      <li>Owner wants freedom, exit, or growth</li>
+      <li>Real pain with budget behind it</li>
+      <li>US-based, virtual delivery fine</li>
+      <li>Scope beyond a single project</li>
+    </ul>
+
+    <div class="sidebar-score-preview">
+      <div class="score-preview-label">Your score</div>
+      <div class="score-preview-num" id="side-score">—</div>
+      <div class="score-preview-bar"><div class="score-preview-fill" id="side-fill"></div></div>
+      <div class="score-preview-verdict" id="side-verdict">Answer questions to see fit score</div>
+      <span class="fit-badge fit-none" id="side-badge">Not scored</span>
+    </div>
+  </aside>
+
+  <!-- Main form -->
+  <main class="main">
+    <div class="form-header">
+      <div class="form-header-kicker">Qualification form</div>
+      <h1>Tell us about your business</h1>
+      <p>Takes about 3 minutes. Your answers go directly to our team and help us prep for a sharper first call — or save everyone's time if it's not the right match.</p>
+    </div>
+
+    <form id="qualifier-form" novalidate="">
+
+      <div class="q-block" id="blk-name">
+        <div class="q-num">01</div>
+        <div class="q-label">Company name</div>
+        <div class="q-why">Optional — helps us look you up ahead of a call</div>
+        <input type="text" id="q-name" placeholder="e.g. Acme Corp" oninput="markAnswered(&#39;blk-name&#39;, this.value)">
+      </div>
+
+      <div class="q-block" id="blk-rev">
+        <div class="q-num">02</div>
+        <div class="q-label">Approximate annual revenue</div>
+        <div class="q-why">The biggest single filter — $1M+ to be worth a conversation</div>
+        <select id="q-rev" onchange="score(); markAnswered(&#39;blk-rev&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="3|$2M+">$2M+</option>
+          <option value="2|$1M to $2M">$1M – $2M</option>
+          <option value="1|$500K to $1M">$500K – $1M</option>
+          <option value="0|Under $500K">Under $500K / pre-revenue</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-type">
+        <div class="q-num">03</div>
+        <div class="q-label">Business type</div>
+        <div class="q-why">For-profit preferred; nonprofits only when operating commercially</div>
+        <select id="q-type" onchange="score(); markAnswered(&#39;blk-type&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="2|For-profit">For-profit</option>
+          <option value="1|Nonprofit commercial angle">Nonprofit — with a commercial angle</option>
+          <option value="0|Nonprofit no commercial angle">Nonprofit — no commercial angle</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-goal">
+        <div class="q-num">04</div>
+        <div class="q-label">Owner's primary goal</div>
+        <div class="q-why">Tells us the upside and whether there's a long engagement behind the first project</div>
+        <select id="q-goal" onchange="score(); markAnswered(&#39;blk-goal&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="3|Exit or acquisition">Exit or acquisition</option>
+          <option value="3|Freedom from the business">Freedom from the business</option>
+          <option value="2|Aggressive growth">Aggressive growth</option>
+          <option value="1|Steady growth lifestyle">Steady lifestyle growth</option>
+          <option value="0|No growth intent">No growth intent / status quo</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-timeline">
+        <div class="q-num">05</div>
+        <div class="q-label">Timeline for that goal</div>
+        <div class="q-why">2–5 years is ideal — no timeline usually signals low urgency</div>
+        <select id="q-timeline" onchange="score(); markAnswered(&#39;blk-timeline&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="2|2 to 5 years">2 – 5 years</option>
+          <option value="1|1 to 2 years">Under 2 years (moving fast)</option>
+          <option value="1|5 to 10 years">5 – 10 years</option>
+          <option value="0|No timeline not sure">No timeline / not sure</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-pain">
+        <div class="q-num">06</div>
+        <div class="q-label">What specific pain started this conversation?</div>
+        <div class="q-why">Real pain signals real budget — vague curiosity rarely closes</div>
+        <select id="q-pain" onchange="score(); markAnswered(&#39;blk-pain&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="2|Specific urgent pain">Specific, urgent problem with real cost</option>
+          <option value="1|Identified problem moderate urgency">Identified problem, moderate urgency</option>
+          <option value="0|Vague curiosity">Exploring options / general curiosity</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-help">
+        <div class="q-num">07</div>
+        <div class="q-label">Have you invested in outside help before?</div>
+        <div class="q-why">Yes = shorter sales cycle; no is workable, just a longer education</div>
+        <select id="q-help" onchange="score(); markAnswered(&#39;blk-help&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="2|Yes consultants or agencies">Yes — consultants, coaches, or agencies</option>
+          <option value="1|Yes one-off or limited">Yes — one-off or limited engagement</option>
+          <option value="0|No never hired outside help">No — never hired outside help</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-scope">
+        <div class="q-num">08</div>
+        <div class="q-label">Is there potential to expand beyond an initial project?</div>
+        <div class="q-why">AI is the door — we want to know what's behind it</div>
+        <select id="q-scope" onchange="score(); markAnswered(&#39;blk-scope&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="3|Clear broader engagement">Yes — clear broader engagement in mind</option>
+          <option value="2|Possible open to exploring">Possibly — open to exploring</option>
+          <option value="1|Focused scope uncertain">Focused scope, expansion uncertain</option>
+          <option value="0|Locked scope one-and-done">Locked scope, one project only</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-budget">
+        <div class="q-num">09</div>
+        <div class="q-label">Budget range for this engagement</div>
+        <div class="q-why">$10K+ is usually the cleaner starting signal</div>
+        <select id="q-budget" onchange="score(); markAnswered(&#39;blk-budget&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="3|$25K+">$25,000+</option>
+          <option value="2|$10K to $25K">$10,000 – $25,000</option>
+          <option value="1|$5K to $10K">$5,000 – $10,000</option>
+          <option value="0|Under $5K unknown">Under $5,000 / not sure yet</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-compete">
+        <div class="q-num">10</div>
+        <div class="q-label">Are other vendors or consultants already in play?</div>
+        <div class="q-why">Not a dealbreaker — just useful context to know early</div>
+        <select id="q-compete" onchange="score(); markAnswered(&#39;blk-compete&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="1|No open field">No — we have an open field</option>
+          <option value="0|Yes competing or locked-scope">Yes — competitive or locked-scope situation</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-geo">
+        <div class="q-num">11</div>
+        <div class="q-label">Where is the business based?</div>
+        <div class="q-why">US-based works best for our team; virtual delivery is always fine</div>
+        <select id="q-geo" onchange="score(); markAnswered(&#39;blk-geo&#39;, this.value)">
+          <option value="">— select one —</option>
+          <option value="1|US-based">United States</option>
+          <option value="0|Outside US">Outside the US</option>
+        </select>
+      </div>
+
+      <div class="q-block" id="blk-notes">
+        <div class="q-num">12</div>
+        <div class="q-label">Anything else we should know?</div>
+        <div class="q-why">Context, referral source, red flags you want us to know upfront — anything goes</div>
+        <textarea id="q-notes" placeholder="Optional — add any context here" oninput="markAnswered(&#39;blk-notes&#39;, this.value)"></textarea>
+      </div>
+
+      <div class="submit-section">
+        <div class="submit-row">
+          <button type="button" class="btn-submit" id="submit-btn" onclick="submitForm()">
+            <span class="spinner" id="spinner"></span>
+            <span id="btn-label">Submit qualifier</span>
+          </button>
+          <p class="submit-note">Your answers go directly to our team.<br>No spam, no follow-up unless it's a fit.</p>
+        </div>
+        <div class="status-msg" id="status-msg"></div>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+<script>
+const NOTION_KEY = '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';
+const DATABASE_ID = '46d0dbcdd54b402282beff7c6bd3d5a4';
+const MAX = 22;
+
+function getVal(id) {
+  const el = document.getElementById(id);
+  if (!el || el.value === '') return null;
+  return el.value;
+}
+
+function parseSelect(val) {
+  if (!val) return { points: 0, label: null };
+  const [pts, label] = val.split('|');
+  return { points: parseInt(pts) || 0, label };
+}
+
+function score() {
+  const fields = ['q-rev','q-type','q-goal','q-timeline','q-pain','q-help','q-scope','q-budget','q-compete','q-geo'];
+  let total = 0, answered = 0;
+  fields.forEach(id => {
+    const v = getVal(id);
+    if (v) { answered++; total += parseSelect(v).points; }
+  });
+
+  const sideScore = document.getElementById('side-score');
+  const sideFill = document.getElementById('side-fill');
+  const sideVerdict = document.getElementById('side-verdict');
+  const sideBadge = document.getElementById('side-badge');
+
+  if (answered === 0) {
+    sideScore.textContent = '—';
+    sideFill.style.width = '0%';
+    sideVerdict.textContent = 'Answer questions to see fit score';
+    sideBadge.textContent = 'Not scored';
+    sideBadge.className = 'fit-badge fit-none';
+    return;
+  }
+
+  const pct = Math.round((total / MAX) * 100);
+  sideScore.textContent = total + ' / ' + MAX;
+  sideFill.style.width = pct + '%';
+
+  if (total >= 16) {
+    sideFill.style.background = '#4fa877';
+    sideVerdict.textContent = 'Strong signals — worth a full conversation.';
+    sideBadge.textContent = 'Strong fit';
+    sideBadge.className = 'fit-badge fit-strong';
+  } else if (total >= 10) {
+    sideFill.style.background = '#d4962a';
+    sideVerdict.textContent = 'Possible fit — a few signals worth probing.';
+    sideBadge.textContent = 'Possible fit';
+    sideBadge.className = 'fit-badge fit-possible';
+  } else {
+    sideFill.style.background = '#c84040';
+    sideVerdict.textContent = 'Weak fit — likely to stall or not close.';
+    sideBadge.textContent = 'Weak fit';
+    sideBadge.className = 'fit-badge fit-weak';
+  }
+}
+
+function markAnswered(blockId, value) {
+  const block = document.getElementById(blockId);
+  if (block) block.classList.toggle('answered', !!value);
+}
+
+async function submitForm() {
+  const btn = document.getElementById('submit-btn');
+  const label = document.getElementById('btn-label');
+  const spinner = document.getElementById('spinner');
+  const statusMsg = document.getElementById('status-msg');
+
+  const fields = ['q-rev','q-type','q-goal','q-timeline','q-pain','q-help','q-scope','q-budget','q-compete','q-geo'];
+  let total = 0;
+  fields.forEach(id => {
+    const v = getVal(id);
+    if (v) total += parseSelect(v).points;
+  });
+
+  let fitLevel = total >= 16 ? 'Strong fit' : total >= 10 ? 'Possible fit' : 'Weak fit';
+
+  const rev = parseSelect(getVal('q-rev'));
+  const type = parseSelect(getVal('q-type'));
+  const goal = parseSelect(getVal('q-goal'));
+  const timeline = parseSelect(getVal('q-timeline'));
+  const pain = parseSelect(getVal('q-pain'));
+  const help = parseSelect(getVal('q-help'));
+  const scope = parseSelect(getVal('q-scope'));
+  const budget = parseSelect(getVal('q-budget'));
+  const compete = parseSelect(getVal('q-compete'));
+  const geo = parseSelect(getVal('q-geo'));
+  const company = document.getElementById('q-name').value.trim() || 'Unknown';
+  const notes = document.getElementById('q-notes').value.trim();
+
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  label.textContent = 'Submitting…';
+  statusMsg.className = 'status-msg';
+
+  const properties = {
+    'Company Name': { title: [{ text: { content: company } }] },
+    'Fit Score': { number: total },
+    'Fit Level': fitLevel ? { select: { name: fitLevel } } : undefined,
+  };
+
+  if (rev.label) properties['Revenue Range'] = { select: { name: rev.label } };
+  if (type.label) properties['Business Type'] = { select: { name: type.label } };
+  if (goal.label) properties['Owner Goal'] = { select: { name: goal.label } };
+  if (timeline.label) properties['Timeline'] = { select: { name: timeline.label } };
+  if (pain.label) properties['Pain Signal'] = { select: { name: pain.label } };
+  if (help.label) properties['Prior Outside Help'] = { select: { name: help.label } };
+  if (scope.label) properties['Scope Expansion'] = { select: { name: scope.label } };
+  if (budget.label) properties['Budget Range'] = { select: { name: budget.label } };
+  if (compete.label) properties['Competition in Play'] = { select: { name: compete.label } };
+  if (geo.label) properties['Geography'] = { select: { name: geo.label } };
+  if (notes) properties['Notes'] = { rich_text: [{ text: { content: notes } }] };
+
+  Object.keys(properties).forEach(k => { if (properties[k] === undefined) delete properties[k]; });
+
+  try {
+    const res = await fetch('https://api.notion.com/v1/pages', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + NOTION_KEY,
+        'Content-Type': 'application/json',
+        'Notion-Version': '2022-06-28'
+      },
+      body: JSON.stringify({ parent: { database_id: DATABASE_ID }, properties })
+    });
+
+    if (res.ok) {
+      statusMsg.className = 'status-msg success';
+      statusMsg.textContent = '✓ Submitted successfully. If it looks like a fit, someone from our team will be in touch within 1–2 business days.';
+      btn.disabled = true;
+      spinner.style.display = 'none';
+      label.textContent = 'Submitted ✓';
+    } else {
+      const err = await res.json();
+      throw new Error(err.message || 'Submission failed');
+    }
+  } catch (e) {
+    statusMsg.className = 'status-msg error';
+    statusMsg.textContent = 'Something went wrong: ' + e.message + '. Please try again or reach out directly.';
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    label.textContent = 'Submit qualifier';
+  }
+}
+</script>
+
+
+</body></html>
